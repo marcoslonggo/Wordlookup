@@ -8,13 +8,16 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wordlookup.db'  # add
 db = SQLAlchemy(app)  # add
 migrate = Migrate(app, db)
-login_manager = LoginManager()
+login_manager = LoginManager(app)
+
 import models
 
 def __repr__(self):
     return '<Grocery %r>' % self.name
 
-
+@app.shell_context_processor
+def make_shell_context():  
+    return {'db' : db} 
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
