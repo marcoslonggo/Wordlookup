@@ -4,10 +4,17 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pylint = "*"
+flake8 = "*"
 
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+flask-login = "*"
+flask-migrate = "*"
+python-dotenv = "*"
+pylint-flask = "*"
+pylint-flask-sqlalchemy = "*"
 
 [requires]
 python_version = "3.8"

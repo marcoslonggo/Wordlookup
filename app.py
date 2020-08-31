@@ -1,18 +1,20 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy  # add
-from datetime import datetime  # add
+from flask_login import LoginManager
+from flask_migrate import Migrate
+
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'  # add
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wordlookup.db'  # add
 db = SQLAlchemy(app)  # add
+migrate = Migrate(app, db)
+login_manager = LoginManager()
+import models
 
-class Grocery(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+def __repr__(self):
+    return '<Grocery %r>' % self.name
 
-    def __repr__(self):
-        return '<Grocery %r>' % self.name
+
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
