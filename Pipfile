@@ -15,6 +15,7 @@ flask-migrate = "*"
 python-dotenv = "*"
 pylint-flask = "*"
 pylint-flask-sqlalchemy = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.8"
