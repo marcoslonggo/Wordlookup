@@ -4,7 +4,8 @@ from models import User
 from forms import LoginForm
 from flask_login import logout_user, login_required, current_user, login_user
 from werkzeug.urls import url_parse
-#from forms import RegistrationForm
+from forms import RegistrationForm
+from app import db
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -26,6 +27,24 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for_('index'))
+    form  = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Registration complete')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
+
+
+
+
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):

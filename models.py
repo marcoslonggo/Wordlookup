@@ -15,10 +15,13 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     first_name = db.Column(db.String(64), nullable=False)
     last_name = db.Column(db.String(64), nullable=False)
-    added_by = db.Column(db.Integer, nullable=False)
+    added_by = db.Column(db.Integer, nullable=True)
+    admin = db.Column(db.Integer, nullable=True)
     added_when = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     password_hash = db.Column(db.String(128), nullable=False)
-    
+    updated_when = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
+    updated_by = db.Column(db.Integer, nullable=True)
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
     
@@ -31,11 +34,11 @@ class User(UserMixin, db.Model):
 class Superlatives(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(120), nullable=False)
-    example = db.Column(db.String(120))
-    ss1 = db.Column(db.String(120) )
-    ss2 = db.Column(db.String(120))
-    ss3 = db.Column(db.String(120))
-    comment = db.Column(db.String(120))
+    example = db.Column(db.String(120), nullable=True)
+    ss1 = db.Column(db.String(120), nullable=True)
+    ss2 = db.Column(db.String(120), nullable=True)
+    ss3 = db.Column(db.String(120), nullable=True)
+    comment = db.Column(db.String(120), nullable=True)
     added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     added_when = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 

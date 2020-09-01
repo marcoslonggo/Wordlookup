@@ -16,6 +16,7 @@ python-dotenv = "*"
 pylint-flask = "*"
 pylint-flask-sqlalchemy = "*"
 flask-wtf = "*"
+email-validator = "*"
 
 [requires]
 python_version = "3.8"
