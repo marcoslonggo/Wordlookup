@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Yabadabadoo'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wordlookup.db'  
+app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app) 
 migrate = Migrate(app, db)
 #login_manager = LoginManager(app)

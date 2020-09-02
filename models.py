@@ -33,14 +33,14 @@ class User(UserMixin, db.Model):
 
 class Superlatives(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    word = db.Column(db.String(120), nullable=False)
+    word = db.Column(db.String(120), nullable=False, unique=True)
     example = db.Column(db.String(120), nullable=True)
     ss1 = db.Column(db.String(120), nullable=True)
     ss2 = db.Column(db.String(120), nullable=True)
     ss3 = db.Column(db.String(120), nullable=True)
     comment = db.Column(db.String(120), nullable=True)
-    added_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    added_when = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    updated_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    updated_when = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)  
