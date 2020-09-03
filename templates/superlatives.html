@@ -5,14 +5,25 @@
 <h1>Hi, {{  current_user.username  }}!
 <h1> SUPERLATIVES</h1>
     
-
-
-
+<div class="container">
+<form action="/superlatives" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            <input type="hidden" name="type" >
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search criteria" >
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Search</button>
+        </div>
+    </div>
+</form>
+</div>
 <div class="container">
    
     <h1 class="my-4">Michele's Word Lookup</h1>
     {% if superlatives|length < 1 %}
-    <p>No words are configured</p>
+    <h3 style="color:Red;"><p>No words like {{ searchword}} found</p></h3>
+    <meta http-equiv="refresh" content="2; URL=http://127.0.0.1:5000/superlatives">
     {% else %}
     <table class="table">
         <thead>

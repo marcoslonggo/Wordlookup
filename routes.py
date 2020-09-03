@@ -89,20 +89,27 @@ def delete(id):
 @login_required
 def superlatives():
     if request.method == 'POST':
-        word = request.form['word']
-        example = request.form['example']
-        ss1 = request.form['ss1']
-        ss2 = request.form['ss2']
-        ss3 = request.form['ss3']
-        comment = request.form['comment']
-        superlatives = Superlatives(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.id)
+        if  request.form['search']:
+            searchword = request.form['search']
+            superlatives = Superlatives.query.filter_by(word = searchword).all()            
+            return render_template('superlatives.html', superlatives=superlatives, searchword=searchword)
+        
+        
+        else:
+            word = request.form['word']
+            example = request.form['example']
+            ss1 = request.form['ss1']
+            ss2 = request.form['ss2']
+            ss3 = request.form['ss3']
+            comment = request.form['comment']
+            superlatives = Superlatives(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.id)
 
-        try:
-            db.session.add(superlatives)
-            db.session.commit()
-            return redirect('/superlatives')
-        except:
-            return "There was a problem adding new stuff."
+            try:
+                db.session.add(superlatives)
+                db.session.commit()
+                return redirect('/superlatives')
+            except:
+                return "There was a problem adding new stuff."
 
     else:
         superlatives = Superlatives.query.order_by(Superlatives.updated_when).all()
