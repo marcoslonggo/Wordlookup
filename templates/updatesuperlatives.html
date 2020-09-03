@@ -6,13 +6,13 @@
     <form action="/update/superlatives/{{ superlatives.id}}" method="POST">
         <div class="form-row">
             <div class="col-sm-10 my-1">
-                <input type="text" class="form-control" name="word" id="word" placeholder="{{ superlatives.word }}">
-                <input type="text" class="form-control" name="example" id="example" placeholder="{{ superlatives.example }}" >
-                <input type="text" class="form-control" name="ss1" id="ss1" placeholder="{{ superlatives.ss1 }}" >
-                <input type="text" class="form-control" name="ss2" id="ss2" placeholder="{{ superlatives.ss2 }}" >
-                <input type="text" class="form-control" name="ss3" id="ss3" placeholder="{{ superlatives.ss3 }}" >
-                <input type="text" class="form-control" name="comment" id="comment" placeholder="{{ superlatives.comment }}" >   
-                <input type="hidden" name="updated_by" id="updated_by" value ="{{ current_user.id }}">
+                Word<input type="text" class="form-control" name="word" id="word" value="{{ superlatives.word }}">
+                Example<input type="text" class="form-control" name="example" id="example" value="{{ superlatives.example }}" >
+                SS1<input type="text" class="form-control" name="ss1" id="ss1" value="{{ superlatives.ss1 }}" >
+                SS2<input type="text" class="form-control" name="ss2" id="ss2" value="{{ superlatives.ss2 }}" >
+                SS3<input type="text" class="form-control" name="ss3" id="ss3" value="{{ superlatives.ss3 }}" >
+                Comment<input type="text" class="form-control" name="comment" id="comment" value="{{ superlatives.comment }}" >   
+                <input type="hidden" name="updated_by" id="updated_by" value ="{{ current_user.username }}">
              </div>
             <div class="col-sm-2 my-1">
                 <button type="submit" class="btn btn-primary btn-block">Update</button>

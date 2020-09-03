@@ -6,7 +6,7 @@
 <h1> SUPERLATIVES</h1>
     
 <div class="container">
-<form action="/superlatives" method="POST">
+<form action="/superlatives/search" method="POST">
     <div class="form-row">
         <div class="col-sm-10 my-1">
             <input type="hidden" name="type" >
@@ -42,19 +42,31 @@
         <tbody>
             {% for superlatives in superlatives %}
             <tr>
-                <td><a href="/update/{{ superlatives.id}}">{{ superlatives.word }}</a></td>
-                <td><a href="/update/{{ superlatives.id}}">{{ superlatives.example }}</a></td>
-                <td><a href="{{ superlatives.ss1 }}">Link</a></td>
-                <td><a href="{{ superlatives.ss2 }}">Link</a></td>
-                <td><a href="{{ superlatives.ss3 }}">Link</a></td>
-                <td><a href="/update/{{ superlatives.id}}">{{ superlatives.comment}}</a></td>
-                <td>{{ superlatives.updated_when.date() }}</td>
-                <td>{{ superlatives.updated_by}}</td>
-                {% if current_user.id == superlatives.updated_by %}
-                    <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/superlatives/{{ superlatives.id }}" role="form">Delete</a></td>
-                    <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/superlatives/{{ superlatives.id }}" role="form">Update</a></td>
+                <td>{{ superlatives.word }}</a></td>
+                <td>{{ superlatives.example }}</a></td>
+                {% if superlatives.ss1 != '' %}
+                    <td><a href="{{ superlatives.ss1 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if superlatives.ss2 != '' %}
+                    <td><a href="{{ superlatives.ss2 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if superlatives.ss3 != '' %}
+                    <td><a href="{{ superlatives.ss3 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
                 {% endif %}
                 
+                <td>{{ superlatives.comment}}</a></td>
+                <td>{{ superlatives.updated_when.date() }}</td>
+                <td>{{ superlatives.updated_by}}</td>
+                {% if current_user.username == superlatives.updated_by or current_user.admin == 1 %}                
+                    <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/superlatives/{{ superlatives.id }}" role="form">Delete</a></td>
+                    <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/superlatives/{{ superlatives.id }}" role="form">Update</a></td>
+                {% endif %}                
 
             </tr>
             {% endfor %}
@@ -66,12 +78,12 @@
 <form action="/superlatives" method="POST">
     <div class="form-row">
         <div class="col-sm-10 my-1">
-            <!--<label for="newStuff" class="sr-only"> New Stuff:</label> -->
+            
             <input type="text" class="form-control" name="word" id="word" placeholder="Enter word">
             <input type="text" class="form-control" name="example" id="example" placeholder="Enter example" >
-            <input type="text" class="form-control" name="ss1" id="ss1" placeholder="Enter ss1" >
-            <input type="text" class="form-control" name="ss2" id="ss2" placeholder="Enter ss2" >
-            <input type="text" class="form-control" name="ss3" id="ss3" placeholder="Enter ss3" >
+            <input type="text" class="form-control" name="ss1" id="ss1" placeholder="Enter ss1 with http:// or https://" >
+            <input type="text" class="form-control" name="ss2" id="ss2" placeholder="Enter ss2 with http:// or https://" >
+            <input type="text" class="form-control" name="ss3" id="ss3" placeholder="Enter ss3 with http:// or https://" >
             <input type="text" class="form-control" name="comment" id="comment" placeholder="Enter comment" >
 
         </div>

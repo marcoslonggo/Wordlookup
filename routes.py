@@ -54,16 +54,15 @@ def update(id):
             
             
             superlatives.word = request.form['word']
-            example = request.form['example']
-            ss1 = request.form['ss1']
-            ss2 = request.form['ss2']
-            ss3 = request.form['ss3']
-            comment = request.form['comment']
-            updated_by = request.form['updated_by']
+            superlatives.example = request.form['example']
+            superlatives.ss1 = request.form['ss1']
+            superlatives.ss2 = request.form['ss2']
+            superlatives.ss3 = request.form['ss3']
+            superlatives.comment = request.form['comment']
+            superlatives.updated_by = request.form['updated_by']
             
 
             try:
-               #db.session.add(superlatives)
                db.session.commit()
                return redirect('/superlatives')
             except sqlalchemy_exc.SQLAlchemyError: 
@@ -89,20 +88,13 @@ def delete(id):
 @login_required
 def superlatives():
     if request.method == 'POST':
-        if  request.form['search']:
-            searchword = request.form['search']
-            superlatives = Superlatives.query.filter_by(word = searchword).all()            
-            return render_template('superlatives.html', superlatives=superlatives, searchword=searchword)
-        
-        
-        else:
             word = request.form['word']
             example = request.form['example']
             ss1 = request.form['ss1']
             ss2 = request.form['ss2']
             ss3 = request.form['ss3']
             comment = request.form['comment']
-            superlatives = Superlatives(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.id)
+            superlatives = Superlatives(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.username)
 
             try:
                 db.session.add(superlatives)
@@ -114,6 +106,33 @@ def superlatives():
     else:
         superlatives = Superlatives.query.order_by(Superlatives.updated_when).all()
         return render_template('superlatives.html', superlatives=superlatives)
+
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin():
+    if current_user.admin != 1: 
+        return "You are not admin"
+
+    else:
+        users = User.query.order_by(User.username).all()
+        return render_template('admin.html', users=users)
+
+
+@app.route('/superlatives/search' , methods=['POST'])
+def superlativessearch():
+    if request.method == 'POST':
+        try:                           
+            searchword = request.form['search']
+            #superlatives = Superlatives.query.filter_by(word = searchword).all()
+            searchword2  = "%{}%".format(searchword)            
+            superlatives = Superlatives.query.filter(Superlatives.word.like(searchword2)).all()
+            return render_template('superlatives.html', superlatives=superlatives, searchword=searchword)
+        except:
+            return "There was an error searching"
+    else:
+        superlatives = Superlatives.query.order_by(Superlatives.updated_when).all()
+        return render_template('superlatives.html', superlatives=superlatives)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
