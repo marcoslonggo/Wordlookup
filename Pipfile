@@ -17,6 +17,7 @@ pylint-flask = "*"
 pylint-flask-sqlalchemy = "*"
 flask-wtf = "*"
 email-validator = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"

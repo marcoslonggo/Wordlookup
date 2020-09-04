@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\marco\\.virtualenvs\\Wordlookup-1gvLGPAn\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\marco\\anaconda3\\python.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.flake8Enabled": false,
     "python.linting.enabled": true
