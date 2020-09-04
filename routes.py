@@ -45,7 +45,6 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-
 @app.route('/update/superlatives/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update(id):
