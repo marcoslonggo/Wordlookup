@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Hi, {{  current_user.username  }}!
+<h1> Brands </h1>
+    
+<div class="container">
+<form action="/brands/search" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            <input type="hidden" name="type" >
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search criteria" >
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Search</button>
+        </div>
+    </div>
+</form>
+</div>
+<div class="container">
+   
+    <h1 class="my-4">Michele's Word Lookup</h1>
+    {% if brands|length < 1 %}
+    <h3 style="color:Red;"><p>No brands like {{ searchword}} found</p></h3>
+    <meta http-equiv="refresh" content="2; URL={{ url_for('brands')}}">
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Brand Name</th>
+                <th>Abreviation</th>
+                <th>Link 1</th>
+                <th>Link 2</th>
+                <th>Link 3</th>
+                <th>Comment</th>
+                <th>Updated when</th>
+                <th>Updated by</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for brands in brands %}
+            <tr>
+                <td>{{ brands.brandname }}</a></td>
+                <td>{{ brands.abbreviation }}</a></td>
+                {% if brands.ss1 != '' %}
+                    <td><a href="{{ brands.ss1 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if brands.ss2 != '' %}
+                    <td><a href="{{ brands.ss2 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if brands.ss3 != '' %}
+                    <td><a href="{{ brands.ss3 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                
+                <td>{{ brands.comment}}</a></td>
+                <td>{{ brands.updated_when.date() }}</td>
+                <td>{{ brands.updated_by}}</td>
+                {% if current_user.username == brands.updated_by or current_user.admin == 1 %}                
+                    <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/brands/{{ brands.id }}" role="form">Delete</a></td>
+                    <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/brands/{{ brands.id }}" role="form">Update</a></td>
+                {% endif %}                
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+  
+</form>
+<form action="/brands" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            
+            <input type="text" class="form-control" name="brandname" id="brandname" placeholder="Enter brand name">
+            <input type="text" class="form-control" name="abbreviation" id="abbreviation" placeholder="Enter abbreviation" >
+            <input type="text" class="form-control" name="ss1" id="ss1" placeholder="Enter ss1 with http:// or https://" >
+            <input type="text" class="form-control" name="ss2" id="ss2" placeholder="Enter ss2 with http:// or https://" >
+            <input type="text" class="form-control" name="ss3" id="ss3" placeholder="Enter ss3 with http:// or https://" >
+            <input type="text" class="form-control" name="comment" id="comment" placeholder="Enter comment" >
+
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Add</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content %}

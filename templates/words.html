@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Hi, {{  current_user.username  }}!
+<h1> Words </h1>
+    
+<div class="container">
+<form action="/words/search" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            <input type="hidden" name="type" >
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search criteria" >
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Search</button>
+        </div>
+    </div>
+</form>
+</div>
+<div class="container">
+   
+    <h1 class="my-4">Michele's Word Lookup</h1>
+    {% if words|length < 1 %}
+    <h3 style="color:Red;"><p>No words like {{ searchword}} found</p></h3>
+    <meta http-equiv="refresh" content="2; URL={{ url_for('words')}}">
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Portuguease</th>
+                <th>Brazilian</th>
+                <th>Abreviation</th>
+                <th>Link 1</th>
+                <th>Link 2</th>
+                <th>Link 3</th>
+                <th>Comment</th>
+                <th>Updated when</th>
+                <th>Updated by</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for words in words %}
+            <tr>
+                <td>{{ words.ptpt }}</a></td>
+                <td>{{ words.ptbr }}</a></td>
+                <td>{{ words.abbreviation }}</a></td>
+                {% if words.ss1 != '' %}
+                    <td><a href="{{ words.ss1 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if words.ss2 != '' %}
+                    <td><a href="{{ words.ss2 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if words.ss3 != '' %}
+                    <td><a href="{{ words.ss3 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                
+                <td>{{ words.comment}}</a></td>
+                <td>{{ words.updated_when.date() }}</td>
+                <td>{{ words.updated_by}}</td>
+                {% if current_user.username == words.updated_by or current_user.admin == 1 %}                
+                    <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/words/{{ words.id }}" role="form">Delete</a></td>
+                    <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/words/{{ words.id }}" role="form">Update</a></td>
+                {% endif %}                
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+  
+</form>
+<form action="/words" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            
+            <input type="text" class="form-control" name="ptpt" id="ptpt" placeholder="Enter Portuguease word">
+            <input type="text" class="form-control" name="ptbr" id="ptbr" placeholder="Enter Brazilian word">
+            <input type="text" class="form-control" name="abbreviation" id="abbreviation" placeholder="Enter abbreviation" >
+            <input type="text" class="form-control" name="ss1" id="ss1" placeholder="Enter ss1 with http:// or https://" >
+            <input type="text" class="form-control" name="ss2" id="ss2" placeholder="Enter ss2 with http:// or https://" >
+            <input type="text" class="form-control" name="ss3" id="ss3" placeholder="Enter ss3 with http:// or https://" >
+            <input type="text" class="form-control" name="comment" id="comment" placeholder="Enter comment" >
+
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Add</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content %}

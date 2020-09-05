@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Hi, {{  current_user.username  }}!
+<h1> Units Of Measurement </h1>
+    
+<div class="container">
+<form action="/uom/search" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            <input type="hidden" name="type" >
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search criteria" >
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Search</button>
+        </div>
+    </div>
+</form>
+</div>
+<div class="container">
+   
+    <h1 class="my-4">Michele's UoM Lookup</h1>
+    {% if uom|length < 1 %}
+    <h3 style="color:Red;"><p>No uom like {{ searchword}} found</p></h3>
+    <meta http-equiv="refresh" content="2; URL={{ url_for('uom')}}">
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>UoM</th>
+                <th>Symbol</th>
+                <th>Description</th>
+                <th>Link 1</th>
+                <th>Link 2</th>
+                <th>Link 3</th>
+                <th>Comment</th>
+                <th>Updated when</th>
+                <th>Updated by</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for uom in uom %}
+            <tr>
+                <td>{{ uom.unit }}</a></td>
+                <td>{{ uom.symbol }}</a></td>
+                <td>{{ uom.description }}</a></td>
+                {% if uom.ss1 != '' %}
+                    <td><a href="{{ uom.ss1 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if uom.ss2 != '' %}
+                    <td><a href="{{ uom.ss2 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                {% if uom.ss3 != '' %}
+                    <td><a href="{{ uom.ss3 }}">Link</a></td>
+                {% else %}
+                    <td>Empty</td>
+                {% endif %}
+                
+                <td>{{ uom.comment}}</a></td>
+                <td>{{ uom.updated_when.date() }}</td>
+                <td>{{ uom.updated_by}}</td>
+                {% if current_user.username == uom.updated_by or current_user.admin == 1 %}                
+                    <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/uom/{{ uom.id }}" role="form">Delete</a></td>
+                    <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/uom/{{ uom.id }}" role="form">Update</a></td>
+                {% endif %}                
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+  
+</form>
+<form action="/uom" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            
+            <input type="text" class="form-control" name="unit" id="unit" placeholder="Enter Unit name">
+            <input type="text" class="form-control" name="symbol" id="symbol" placeholder="Enter symbol" >
+            <input type="text" class="form-control" name="description" id="description" placeholder="Enter description" >
+            <input type="text" class="form-control" name="ss1" id="ss1" placeholder="Enter ss1 with http:// or https://" >
+            <input type="text" class="form-control" name="ss2" id="ss2" placeholder="Enter ss2 with http:// or https://" >
+            <input type="text" class="form-control" name="ss3" id="ss3" placeholder="Enter ss3 with http:// or https://" >
+            <input type="text" class="form-control" name="comment" id="comment" placeholder="Enter comment" >
+            
+
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Add</button>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content %}

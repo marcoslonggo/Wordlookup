@@ -22,6 +22,10 @@
                 <a href="{{ url_for('logout') }}">|Logout</a>
                 {% endif %}
                 <a href="{{ url_for('superlatives') }}">|Superlatives</a>
+                <a href="{{ url_for('words') }}">|Words</a>
+                <a href="{{ url_for('brands') }}">|Brands</a>
+                <a href="{{ url_for('uom') }}">|UoM</a>
+                
                 {% if current_user.admin == 1 %}
                 <a href="{{ url_for('admin') }}">|Admin</a>
                 {% endif %}  
