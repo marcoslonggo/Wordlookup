@@ -77,6 +77,17 @@ class Uom(db.Model):
     updated_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     updated_when = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+class Prohibited(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    word = db.Column(db.String(120), nullable=False, unique=True)
+    example = db.Column(db.String(120), nullable=True)
+    ss1 = db.Column(db.String(120), nullable=True)
+    ss2 = db.Column(db.String(120), nullable=True)
+    ss3 = db.Column(db.String(120), nullable=True)
+    comment = db.Column(db.String(120), nullable=True)
+    updated_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    updated_when = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 
 @login.user_loader
 def load_user(id):

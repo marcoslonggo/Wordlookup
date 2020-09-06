@@ -479,3 +479,89 @@ def uomsearch():
     else:
         uom = uom.query.order_by(Uom.updated_when).all()
         return render_template('uom.html', uom=uom)
+
+
+       
+
+
+######################Prohibited################################
+@app.route('/update/prohibited/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update(id):
+    prohibited = prohibited.query.get_or_404(id)
+    if request.method == 'POST':
+        if request.form['word'] == '':
+            return "Word cannot be empty"
+        else:
+            prohibited.word = request.form['word']
+            prohibited.example = request.form['example']
+            prohibited.ss1 = request.form['ss1']
+            prohibited.ss2 = request.form['ss2']
+            prohibited.ss3 = request.form['ss3']
+            prohibited.comment = request.form['comment']
+            prohibited.updated_by = request.form['updated_by']
+            
+
+        try:
+            db.session.commit()
+            return redirect('/prohibited')
+        except sqlalchemy_exc.SQLAlchemyError: 
+            raise
+    else:
+        title = "Update Data"
+        return render_template('updateprohibited.html', title=title, prohibited=prohibited) 
+
+@app.route('/delete/prohibited/<int:id>')
+@login_required
+def deleteprohibited(id):
+        delete = prohibited.query.get_or_404(id)
+        try:
+            db.session.delete(delete)
+            db.session.commit()
+            return redirect('/prohibited')
+        except:
+            return "There was a problem deleting data"
+
+
+
+@app.route('/prohibited', methods=['GET', 'POST'])
+def prohibited():
+    if request.method == 'POST':
+        if request.form['word'] == '':
+            return "prohibited Word cannot be empty"
+        else:
+            word = request.form['word']
+            example = request.form['example']
+            ss1 = request.form['ss1']
+            ss2 = request.form['ss2']
+            ss3 = request.form['ss3']
+            comment = request.form['comment']
+            prohibited = prohibited(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.username)
+
+            try:
+                db.session.add(prohibited)
+                db.session.commit()
+                return redirect('/prohibited')
+            except:
+                return "There was a problem adding new stuff."
+
+    else:
+        prohibited = prohibited.query.order_by(prohibited.updated_when).all()
+        return render_template('prohibited.html', prohibited=prohibited)
+
+
+
+
+@app.route('/prohibited/search' , methods=['POST'])
+def prohibitedssearch():
+    if request.method == 'POST':
+        try:                           
+            searchword = request.form['search']
+            searchword2  = "%{}%".format(searchword)            
+            prohibited = prohibited.query.filter(prohibited.word.like(searchword2)).all()
+            return render_template('prohibited.html', prohibited=prohibited, searchword=searchword)
+        except:
+            return "There was an error searching"
+    else:
+        prohibited = prohibited.query.order_by(prohibited.updated_when).all()
+        return render_template('prohibited.html', prohibited=prohibited)
