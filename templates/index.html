@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if current_user.is_anonymous%}
-<h1>Welcome to PT Word Lookup. Please <a href="{{ url_for('login')}}">login to edit or choose one of the options below</a>.</h1>    
+<h2>Welcome to PT Word Lookup. Please <a href="{{ url_for('login')}}">login to edit </a>or choose one of the options below.</h2>    
     
 {% else %}
 <h1>Hi {{  current_user.username  }}!

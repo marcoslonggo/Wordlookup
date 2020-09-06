@@ -29,7 +29,7 @@
                 <td>{{ users.email }}</a></td>
                 <td>{{ users.first_name}}</a></td>
                 <td>{{ users.last_name }}</td>
-                <td>{{ users.admin}}</td>
+                <td>{{ 'No' if users.admin != 1 else 'Yes'}}</td>
                 <td>{{ users.updated_when}}</td>
                 <td>{{ users.updated_by}}</td>
                 {% if current_user.admin == 1 %}                
@@ -46,18 +46,24 @@
 
 <form action="/admin" method="POST">
     <div class="form-row">
-        <div class="col-sm-10 my-1">
+        <div class="col-sm-20 my-1">
             
             <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
             <input type="text" class="form-control" name="email" id="email" placeholder="Enter email" >
             <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter first name" >
             <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter last name" >
-            <input type="text" class="form-control" name="admin" id="admin" placeholder="Is admin? 1 for yes or 0 for no" >
             <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" >
-
+            <input type="hidden" name="admin" id="admin" value="0">
+            <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="admin" id="admin" value="1" >
+            <label class="form-check-label" for="admin">Is admin?</label>
+            
         </div>
+        </div>
+        
         <div class="col-sm-2 my-1">
-            <button type="submit" class="btn btn-primary btn-block">Add</button>
+            
+            <button type="submit" class="btn btn-primary btn-block">Add new</button>
         </div>
     </div>
 </form>

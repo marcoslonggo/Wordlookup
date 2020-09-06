@@ -11,19 +11,36 @@ import re
 from sqlalchemy import and_, or_, not_
 import sqlalchemy.exc as sqlalchemy_exc
 
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if current_user.is_authenticated:
+#         return redirect(url_for('index'))
+#     form = LoginForm()
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(username=form.username.data).first()
+#         if user is None or not user.check_password(form.password.data):
+#             flash('Invalid username or password')
+#             redirect(url_for('login'))
+#         login_user(user, remember=form.remember_me.data)
+#         return redirect(url_for('index'))
+#     return render_template('login.html', title='Sign In', form=form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    form = LoginForm()
+    form = LoginForm()  
     if form.validate_on_submit():
+        print(form.username.data)
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            redirect(url_for('login'))
+            return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
+
 
 
 @app.route('/logout')
@@ -116,22 +133,11 @@ def deleteuser(id):
 
 
 ########### Main route ###################
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    if request.method == 'POST':
-        name = request.form['name']
-        new_stuff = Grocery(name=name)
-
-        try:
-            db.session.add(new_stuff)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "There was a problem adding new stuff."
-
-    else:
-        groceries = Grocery.query.order_by(Grocery.created_at).all()
-        return render_template('index.html', groceries=groceries)
+    return render_template('index.html')
+        
+    
 
 ######################SUPERLATIVES################################
 @app.route('/update/superlatives/<int:id>', methods=['GET', 'POST'])
