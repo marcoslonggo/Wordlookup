@@ -174,7 +174,6 @@ def delete(id):
 
 
 @app.route('/superlatives', methods=['GET', 'POST'])
-@login_required
 def superlatives():
     if request.method == 'POST':
         if request.form['word'] == '':
@@ -247,7 +246,7 @@ def wordsupdate(id):
         return render_template('updatewords.html', title=title, words=words) 
 
 @app.route('/delete/words/<int:id>')
-#@login_required
+@login_required
 def wordsdelete(id):
         delete = Words.query.get_or_404(id)
         try:
@@ -260,7 +259,7 @@ def wordsdelete(id):
 
 
 @app.route('/words', methods=['GET', 'POST'])
-@login_required
+
 def words():
     if request.method == 'POST':
         if request.form['ptpt'] == '' and request.form['ptbr'] == '':
@@ -333,7 +332,7 @@ def brandsupdate(id):
         return render_template('updatebrands.html', title=title, brands=brands) 
 
 @app.route('/delete/brands/<int:id>')
-#@login_required
+@login_required
 def brandsdelete(id):
         delete = Brands.query.get_or_404(id)
         try:
@@ -346,7 +345,7 @@ def brandsdelete(id):
 
 
 @app.route('/brands', methods=['GET', 'POST'])
-@login_required
+
 def brands():
     if request.method == 'POST':
         if request.form['brandname'] == '':
@@ -423,7 +422,7 @@ def uomupdate(id):
         return render_template('updateuom.html', title=title, uom=uom) 
 
 @app.route('/delete/uom/<int:id>')
-#@login_required
+@login_required
 def uomdelete(id):
         delete = Uom.query.get_or_404(id)
         try:
@@ -436,7 +435,7 @@ def uomdelete(id):
 
 
 @app.route('/uom', methods=['GET', 'POST'])
-@login_required
+
 def uom():
     if request.method == 'POST':
         if request.form['unit'] == '':

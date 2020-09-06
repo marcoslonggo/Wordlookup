@@ -5,8 +5,9 @@
 {% if current_user.is_anonymous%}
 <h1>Hi anonymous. Please login to edit.</h1>    
 {% else %}
-<h1>Hi {{  current_user.username  }}!
-
+<h1>Hi {{  current_user.username  }}!</h1>
+<div class="container">
+    <h1 class="my-4">PT Word Lookup user admin panel</h1>
     <table class="table">
         <thead>
             <tr>
@@ -53,8 +54,6 @@
             <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter last name" >
             <input type="text" class="form-control" name="admin" id="admin" placeholder="Is admin? 1 for yes or 0 for no" >
             <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" >
-            
-            
 
         </div>
         <div class="col-sm-2 my-1">
@@ -62,5 +61,6 @@
         </div>
     </div>
 </form>
+</div>
 </div>
 {% endblock content %}

@@ -2,8 +2,11 @@
 
 {% block content %}
 
+{% if current_user.is_authenticated%}
 <h1>Hi, {{  current_user.username  }}!
-<h1> Words </h1>
+{% endif %}
+<h1> Words</h1>
+    
     
 <div class="container">
 <form action="/words/search" method="POST">
@@ -77,6 +80,8 @@
     {% endif %}
   
 </form>
+{% if  current_user.is_authenticated %}    
+
 <form action="/words" method="POST">
     <div class="form-row">
         <div class="col-sm-10 my-1">
@@ -95,5 +100,7 @@
         </div>
     </div>
 </form>
+{% endif %}
 </div>
+
 {% endblock content %}

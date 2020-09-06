@@ -3,9 +3,11 @@
 {% block content %}
 
 {% if current_user.is_anonymous%}
-<h1>Hi anonymous. Please login to edit..</h1>    
+<h1>Welcome to PT Word Lookup. Please <a href="{{ url_for('login')}}">login to edit or choose one of the options below</a>.</h1>    
+    
 {% else %}
 <h1>Hi {{  current_user.username  }}!
+    <h1>Welcome to PT Word Lookup. Please choose one of the options below</a>.</h1>    
 {% endif %}
 
 
