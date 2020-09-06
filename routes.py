@@ -44,16 +44,78 @@ def register():
         flash('Registration complete')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+####### USER ADMIN #####
 @app.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
     if current_user.admin != 1: 
         return "You are not admin"
-
+    
     else:
-        users = User.query.order_by(User.username).all()
-        return render_template('admin.html', users=users)
+        if request.method == 'POST':
+            username = request.form['username']
+            email = request.form['email']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            updated_by = current_user.username
+            admin = request.form['admin']
+            user = User(username=username, email=email, first_name=first_name, last_name = last_name, updated_by=updated_by, admin=admin)
+            user.set_password(request.form['password'])
+            try:
+                db.session.add(user)
+                db.session.commit()
+                return redirect('/admin')
+            except:
+                return "Problem addmin new user" 
+        else:
+            users = User.query.order_by(User.username).all()
+            return render_template('admin.html', users=users)    
 
+
+@app.route('/update/users/<int:id>', methods=['POST','GET'])
+@login_required
+def updateusers(id):
+        users = User.query.get_or_404(id)
+        if current_user.admin != 1:
+            return "You are not admin"
+        
+        else:    
+            if request.method == 'POST':
+                users.username = request.form['username']
+                users.email = request.form['email']
+                users.first_name = request.form['first_name']
+                users.last_name = request.form['last_name']
+                users.admin = request.form['admin']
+                users.updated_by = request.form['updated_by']
+                try:
+                    db.session.commit()
+                    return redirect('/admin')
+                except sqlalchemy_exc.SQLAlchemyError:
+                    raise
+            else:
+                title = "Update Users"
+                return render_template('updateusers.html', title=title, users=users)
+
+
+@app.route('/delete/users/<int:id>')
+@login_required
+def deleteuser(id):
+    delete = User.query.get_or_404(id)
+    if current_user.admin != 1:
+        return "You are not admin"
+    else:
+        try:
+            db.session.delete(delete)
+            db.session.commit()
+            return redirect('/admin')
+        except:
+            return "There was an error deleting the users"
+
+
+
+
+########### Main route ###################
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -99,7 +161,7 @@ def update(id):
         return render_template('updatesuperlatives.html', title=title, superlatives=superlatives) 
 
 @app.route('/delete/superlatives/<int:id>')
-#@login_required
+@login_required
 def delete(id):
         delete = Superlatives.query.get_or_404(id)
         try:

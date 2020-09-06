@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Update Data</h1>
+    <form action="/update/users/{{ users.id}}" method="POST">
+        <div class="form-row">
+            <div class="col-sm-10 my-1">
+                Username<input type="text" class="form-control" name="username" id="username" value="{{ users.username }}">
+                Email<input type="text" class="form-control" name="email" id="email" value="{{ users.email }}" >
+                First Name<input type="text" class="form-control" name="first_name" id="first_name" value="{{ users.first_name }}" >
+                Last Name<input type="text" class="form-control" name="last_name" id="last_name" value="{{ users.last_name }}" >
+                admin<input type="text" class="form-control" name="admin" id="admin" value="{{ users.admin }}" >
+                <input type="hidden" name="updated_by" id="updated_by" value ="{{ current_user.username }}">
+             </div>
+            <div class="col-sm-2 my-1">
+                <button type="submit" class="btn btn-primary btn-block">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

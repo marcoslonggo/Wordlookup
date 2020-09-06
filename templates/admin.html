@@ -14,7 +14,6 @@
                 <th>email</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Added_by</th>
                 <th>Admin</th>
                 <th>Updated_when</th>
                 <th>Updated by</th>
@@ -29,7 +28,6 @@
                 <td>{{ users.email }}</a></td>
                 <td>{{ users.first_name}}</a></td>
                 <td>{{ users.last_name }}</td>
-                <td>{{ users.added_by}}</td>
                 <td>{{ users.admin}}</td>
                 <td>{{ users.updated_when}}</td>
                 <td>{{ users.updated_by}}</td>
@@ -45,5 +43,24 @@
 
 {% endif %}
 
+<form action="/admin" method="POST">
+    <div class="form-row">
+        <div class="col-sm-10 my-1">
+            
+            <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
+            <input type="text" class="form-control" name="email" id="email" placeholder="Enter email" >
+            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Enter first name" >
+            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Enter last name" >
+            <input type="text" class="form-control" name="admin" id="admin" placeholder="Is admin? 1 for yes or 0 for no" >
+            <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password" >
+            
+            
 
+        </div>
+        <div class="col-sm-2 my-1">
+            <button type="submit" class="btn btn-primary btn-block">Add</button>
+        </div>
+    </div>
+</form>
+</div>
 {% endblock content %}
