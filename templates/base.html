@@ -6,30 +6,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         {% if title %}
-        <title>{{ title }}  -  Flask CRUD</title>
+        <title>{{ title }}</title>
         {% else %}
         <title>PT Word Lookup</title>
         {% endif %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
         </head>
+<nav class="navbar navbar-expang-lg navbar-light bg-lightsteelblue justify-content-center ">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/'  else '' }} " href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/words'  else '' }}" href="{{ url_for('words') }}">Words</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/superlatives'  else '' }}" href="{{ url_for('superlatives') }}">Superlatives</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/brands'  else '' }}" href="{{ url_for('brands') }}">Brands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/uom'  else '' }}" href="{{ url_for('uom') }}">UoM</a>
+          </li>
+          {% if current_user.admin == 1 %}
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/admin'  else '' }}" href="{{ url_for('admin') }}" style="color:red">Admin</a>
+          </li>
+          {% endif %}  
+          {% if current_user.is_anonymous%}
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/login'  else '' }}" href="{{ url_for('login') }}">Login</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/logout'  else '' }}" href="{{ url_for('logout') }}" >Logout</a>
+          </li>
+          {% endif %}
+      </ul>
+
+</nav>
 
         <body>
-            <div>
-                <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
-                {% if current_user.is_anonymous%}
-                <a class="btn btn-primary"href="{{ url_for('login') }}">Login</a>
-                {% else %}
-                <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
-                {% endif %}
-                <a class="btn btn-primary"href="{{ url_for('superlatives') }}">Superlatives</a>
-                <a class="btn btn-primary"href="{{ url_for('words') }}">Words</a>
-                <a class="btn btn-primary"href="{{ url_for('brands') }}">Brands</a>
-                <a class="btn btn-primary"href="{{ url_for('uom') }}">UoM</a>
-                
-                {% if current_user.admin == 1 %}
-                <a class="btn btn-danger"href="{{ url_for('admin') }}">Admin</a>
-                {% endif %}  
-            </div>
+ 
             {% block content %} {% endblock %}
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

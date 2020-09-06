@@ -1,3 +1,10 @@
 body {
     background: lightsteelblue;
-  }
+}
+
+
+nav {
+    color: #000000;
+    background-color: #2399FB;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
