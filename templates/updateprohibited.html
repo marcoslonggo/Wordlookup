@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Update Data</h1>
+    <form action="/update/prohibited/{{ prohibited.id}}" method="POST">
+        <div class="form-row">
+            <div class="col-sm-10 my-1">
+                Prohibited Word<input type="text" class="form-control" name="word" id="word" value="{{ prohibited.word }}">
+                Example<input type="text" class="form-control" name="example" id="example" value="{{ prohibited.example }}" >
+                SS1<input type="text" class="form-control" name="ss1" id="ss1" value="{{ prohibited.ss1 }}" >
+                SS2<input type="text" class="form-control" name="ss2" id="ss2" value="{{ prohibited.ss2 }}" >
+                SS3<input type="text" class="form-control" name="ss3" id="ss3" value="{{ prohibited.ss3 }}" >
+                Comment<input type="text" class="form-control" name="comment" id="comment" value="{{ prohibited.comment }}" >   
+                <input type="hidden" name="updated_by" id="updated_by" value ="{{ current_user.username }}">
+             </div>
+            <div class="col-sm-2 my-1">
+                <button type="submit" class="btn btn-primary btn-block">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

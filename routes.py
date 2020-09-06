@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app
-from models import User, Superlatives, Words, Brands, Grocery, Uom
+from models import User, Superlatives, Words, Brands, Grocery, Uom, Prohibited
 from forms import LoginForm
 from flask_login import logout_user, login_required, current_user, login_user
 from werkzeug.urls import url_parse
@@ -487,11 +487,11 @@ def uomsearch():
 ######################Prohibited################################
 @app.route('/update/prohibited/<int:id>', methods=['GET', 'POST'])
 @login_required
-def update(id):
-    prohibited = prohibited.query.get_or_404(id)
+def updateprohibited(id):
+    prohibited = Prohibited.query.get_or_404(id)
     if request.method == 'POST':
         if request.form['word'] == '':
-            return "Word cannot be empty"
+            return "Prohibited Word cannot be empty"
         else:
             prohibited.word = request.form['word']
             prohibited.example = request.form['example']
@@ -514,7 +514,7 @@ def update(id):
 @app.route('/delete/prohibited/<int:id>')
 @login_required
 def deleteprohibited(id):
-        delete = prohibited.query.get_or_404(id)
+        delete = Prohibited.query.get_or_404(id)
         try:
             db.session.delete(delete)
             db.session.commit()
@@ -536,7 +536,7 @@ def prohibited():
             ss2 = request.form['ss2']
             ss3 = request.form['ss3']
             comment = request.form['comment']
-            prohibited = prohibited(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.username)
+            prohibited = Prohibited(word=word, example=example, ss1=ss1, ss2=ss2,ss3=ss3, comment=comment, updated_by=current_user.username)
 
             try:
                 db.session.add(prohibited)
@@ -546,22 +546,22 @@ def prohibited():
                 return "There was a problem adding new stuff."
 
     else:
-        prohibited = prohibited.query.order_by(prohibited.updated_when).all()
+        prohibited = Prohibited.query.order_by(Prohibited.updated_when).all()
         return render_template('prohibited.html', prohibited=prohibited)
 
 
 
 
-@app.route('/prohibited/search' , methods=['POST'])
-def prohibitedssearch():
+@app.route('/prohibited/search/<int:id>' , methods=['POST'])
+def prohibitedssearch(id):
     if request.method == 'POST':
         try:                           
             searchword = request.form['search']
             searchword2  = "%{}%".format(searchword)            
-            prohibited = prohibited.query.filter(prohibited.word.like(searchword2)).all()
+            prohibited = Prohibited.query.filter(Prohibited.word.like(searchword2)).all()
             return render_template('prohibited.html', prohibited=prohibited, searchword=searchword)
         except:
             return "There was an error searching"
     else:
-        prohibited = prohibited.query.order_by(prohibited.updated_when).all()
+        prohibited = Prohibited.query.order_by(Prohibited.updated_when).all()
         return render_template('prohibited.html', prohibited=prohibited)

@@ -15,32 +15,36 @@
 <nav class="navbar navbar-expang-lg navbar-light bg-lightsteelblue justify-content-center ">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/'  else '' }} " href="{{ url_for('index') }}">Home</a>
+          <a class="nav-link  {{ 'active' if 'index' in   request.endpoint  else '' }} " href="{{ url_for('index') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/words'  else '' }}" href="{{ url_for('words') }}">Words</a>
+          <a class="nav-link {{ 'active' if 'words' in request.endpoint  else '' }}" href="{{ url_for('words') }}">Words</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/superlatives'  else '' }}" href="{{ url_for('superlatives') }}">Superlatives</a>
+          <a class="nav-link {{ 'active' if 'prohibited' in request.endpoint  else '' }}" href="{{ url_for('prohibited') }}">Prohibited</a>
+      </li>
+        <li class="nav-item">
+            <a class="nav-link {{ 'active' if 'superlatives' in request.endpoint else '' }}" href="{{ url_for('superlatives') }}">Superlatives</a>
         </li>
+      
           <li class="nav-item">
-            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/brands'  else '' }}" href="{{ url_for('brands') }}">Brands</a>
+            <a class="nav-link {{ 'active' if 'brands' in request.endpoint  else '' }}" href="{{ url_for('brands') }}">Brands</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/uom'  else '' }}" href="{{ url_for('uom') }}">UoM</a>
+            <a class="nav-link {{ 'active' if 'uom'  in request.endpoint else '' }}" href="{{ url_for('uom') }}">UoM</a>
           </li>
           {% if current_user.admin == 1 %}
           <li class="nav-item">
-            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/admin'  else '' }}" href="{{ url_for('admin') }}" style="color:red">Admin</a>
+            <a class="nav-link {{ 'active' if 'admin' in request.endpoint else '' }}" href="{{ url_for('admin') }}" style="color:red">Admin</a>
           </li>
           {% endif %}  
           {% if current_user.is_anonymous%}
           <li class="nav-item">
-            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/login'  else '' }}" href="{{ url_for('login') }}">Login</a>
+            <a class="nav-link {{ 'active' if  'login' in request.endpoint else '' }}" href="{{ url_for('login') }}">Login</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link {{ 'active' if url_for(request.endpoint) == '/logout'  else '' }}" href="{{ url_for('logout') }}" >Logout</a>
+            <a class="nav-link {{ 'active' if 'logout' in request.endpoint else '' }}" href="{{ url_for('logout') }}" >Logout</a>
           </li>
           {% endif %}
       </ul>
