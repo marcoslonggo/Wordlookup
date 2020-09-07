@@ -84,8 +84,15 @@ h2.active {
   color: #0d0d0d;
   border-bottom: 2px solid #5fbae9;
 }
+table {
+  border-collapse: collapse;
 
-
+}
+ 
+ td, th, tr{
+  border: 1px solid black; border-collapse: collapse;
+ }
+ 
 
 /* FORM TYPOGRAPHY*/
 

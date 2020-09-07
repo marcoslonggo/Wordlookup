@@ -19,15 +19,15 @@
     </div>
 </form>
 </div>
-<div class="container">
+<div class="container-fluid">
    
     <h1 class="my-4">Michele's Superlative Lookup</h1>
     {% if superlatives|length < 1 %}
     <h3 style="color:Red;"><p>No words like {{ searchword }} found</p></h3>
     <meta http-equiv="refresh" content="2; URL=http://127.0.0.1:5000/superlatives">
     {% else %}
-    <table class="table">
-        <thead>
+    <table class="table-striped  table-responsive   ">
+        <thead class="thead-light">
             <tr>
                 <th>Word</th>
                 <th>Example</th>
@@ -37,6 +37,8 @@
                 <th>Comment</th>
                 <th>Updated when</th>
                 <th>Updated by</th>
+                <th></th>
+                <th></th>
 
             </tr>
         </thead>
@@ -65,8 +67,8 @@
                 <td>{{ superlatives.updated_when.date() }}</td>
                 <td>{{ superlatives.updated_by}}</td>
                 {% if current_user.username == superlatives.updated_by or current_user.admin == 1 %}                
-                    <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/superlatives/{{ superlatives.id }}" role="form">Delete</a></td>
-                    <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/superlatives/{{ superlatives.id }}" role="form">Update</a></td>
+                <td class="text-right"><a class="btn btn-danger btn-sm" href="/delete/superlatives/{{ superlatives.id }}" role="form">Delete</a></td>
+                <td class="text-left"><a class="btn btn-danger btn-sm" href="/update/superlatives/{{ superlatives.id }}" role="form">Update</a></td>
                 {% endif %}                
 
             </tr>
@@ -76,10 +78,11 @@
     {% endif %}
   
 </form>
+
 {% if  current_user.is_authenticated %}    
 <form action="/superlatives" method="POST">
     <div class="form-row">
-        <div class="col-sm-10 my-1">
+        <div class="col-sm-6 my-1">
             
             <input type="text" class="form-control" name="word" id="word" placeholder="Enter word">
             <input type="text" class="form-control" name="example" id="example" placeholder="Enter example" >
@@ -90,11 +93,13 @@
 
         </div>
         <div class="col-sm-2 my-1">
+            <br> <br> <br> <br>
             <button type="submit" class="btn btn-primary btn-block">Add</button>
         </div>
     </div>
 </form>
 {% endif %}
+
 </div>
 
 {% endblock content %}
