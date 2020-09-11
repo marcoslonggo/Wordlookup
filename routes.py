@@ -10,6 +10,7 @@ import sys
 import re
 from sqlalchemy import and_, or_, not_
 import sqlalchemy.exc as sqlalchemy_exc
+import psycopg2
 
 # @app.route('/login', methods=['GET', 'POST'])
 # def login():
