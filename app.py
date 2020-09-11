@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy 
 from flask_login import LoginManager
 from flask_migrate import Migrate
+import os
+import psycopg2
 
 
 app = Flask(__name__)
