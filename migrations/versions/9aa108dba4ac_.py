@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7757e235126f
+Revision ID: 9aa108dba4ac
 Revises: 
-Create Date: 2020-09-05 23:31:58.909575
+Create Date: 2020-09-11 14:09:53.860548
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7757e235126f'
+revision = '9aa108dba4ac'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -53,6 +53,20 @@ def upgrade():
     sa.ForeignKeyConstraint(['updated_by'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('brandname')
+    )
+    op.create_table('prohibited',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('word', sa.String(length=120), nullable=False),
+    sa.Column('example', sa.String(length=120), nullable=True),
+    sa.Column('ss1', sa.String(length=120), nullable=True),
+    sa.Column('ss2', sa.String(length=120), nullable=True),
+    sa.Column('ss3', sa.String(length=120), nullable=True),
+    sa.Column('comment', sa.String(length=120), nullable=True),
+    sa.Column('updated_by', sa.Integer(), nullable=False),
+    sa.Column('updated_when', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['updated_by'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('word')
     )
     op.create_table('superlatives',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -107,6 +121,7 @@ def downgrade():
     op.drop_table('words')
     op.drop_table('uom')
     op.drop_table('superlatives')
+    op.drop_table('prohibited')
     op.drop_table('brands')
     op.drop_index(op.f('ix_user_username'), table_name='user')
     op.drop_index(op.f('ix_user_email'), table_name='user')
