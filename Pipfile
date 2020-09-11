@@ -18,7 +18,7 @@ pylint-flask-sqlalchemy = "*"
 flask-wtf = "*"
 email-validator = "*"
 gunicorn = "*"
-mysql-connector-python = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.8"
